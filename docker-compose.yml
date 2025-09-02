@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  task-api-ts:
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - task-mongo
+    environment:
+      - MONGO_URI=mongodb://task-mongo:27017/tasksdb
+      - NODE_ENV=development
+    # Run in foreground to see logs immediately
+    stdin_open: true
+    tty: true
+
+  task-mongo:
+    image: mongo:6.0
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
